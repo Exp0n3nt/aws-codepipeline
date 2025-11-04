@@ -12,11 +12,12 @@ phases:
   pre_build:
     commands:
       - echo "Reinitializing Terraform backend..."
-      - terraform init --backend-config="state-.config"
+      - terraform init --backend-config="state.config"
 
   build:
     commands:
       - echo "Applying Terraform plan..."
-      - cp ../tfplan .
+      - ls -R ../../
+      - cp ../../01/infra/tfplan .
       - terraform apply -auto-approve tfplan
 

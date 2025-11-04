@@ -1,20 +1,32 @@
 provider "aws" {
-  region     = "us-east-1"
+  region = "us-east-1"
 }
 
 terraform {
   backend "s3" {
-    bucket = "" 
-    key    = ""
-    region = ""
+    bucket         = ""
+    key            = ""
+    region         = ""
     dynamodb_table = ""
-    encrypt = ""
+    encrypt        = ""
   }
 }
 
 module "vpc" {
- source = "./vpc" 
- vpc_cidr = local.vpc_cidr
- public_cidr = local.public_cidr
- private_cidr = local.private_cidr
+  source       = "./vpc"
+  vpc_cidr     = local.vpc_cidr
+  public_cidr  = local.public_cidr
+  private_cidr = local.private_cidr
+}
+
+module "s3" {
+  source           = "./s3"
+  s3_bucket_input  = local.s3_bucket_input
+  s3_bucket_output = local.s3_bucket_output
+}
+
+module "glue" {
+  source = "./glue"
+  s3_bucket_input = module.s3.s3_bucket_input
+  s3_bucket_output = module.s3.s3_bucket_output
 }
