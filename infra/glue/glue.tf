@@ -2,7 +2,7 @@ resource "aws_glue_catalog_database" "demodb" {
   name = "demodb"
 }
 resource "aws_glue_catalog_table" "aws_glue_catalog_table" {
-  name          = "DemoTable"
+  name          = "demotable"
   database_name = aws_glue_catalog_database.demodb.name
 }
 resource "aws_glue_crawler" "crawler" {
