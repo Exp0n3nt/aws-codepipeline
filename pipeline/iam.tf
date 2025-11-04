@@ -185,3 +185,7 @@ resource "aws_iam_role_policy_attachment" "vpc_full_access" {
   role       = aws_iam_role.codebuild_role.name
   policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
 }
+resource "aws_iam_role_policy_attachment" "glue_service_role" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = "arn:aws:iam::aws:policy/service-role/AWSGlueServiceRole"
+}
