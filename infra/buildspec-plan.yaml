@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo "Installing Terraform..."
+      - curl -s -o terraform.zip https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip
+      - unzip terraform.zip -d /usr/local/bin/
+      - terraform -version
+
+  pre_build:
+    commands:
+      - echo "Initializing Terraform backend..."
+      - terraform init --backend-config="state-dev.config"
+
+  build:
+    commands:
+      - echo "Validating and planning..."
+      - terraform validate
+      - terraform plan -out=tfplan
+      - ls -R
+
+artifacts:
+  files:
+    - '**/tfplan'
+    - '**/terraform.lock.hcl'
+
