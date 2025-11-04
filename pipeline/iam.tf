@@ -109,7 +109,6 @@ data "aws_iam_policy_document" "codebuild_assume_role" {
     actions = ["sts:AssumeRole"]
   }
 }
-
 resource "aws_iam_role" "codebuild_role" {
   name               = "codebuild-role"
   assume_role_policy = data.aws_iam_policy_document.codebuild_assume_role.json
@@ -120,13 +119,13 @@ data "aws_iam_policy_document" "codebuild_policy" {
     actions = [
       "logs:CreateLogGroup",
       "logs:CreateLogStream",
-      "logs:PutLogEvents"
+      "logs:PutLogEvents",
     ]
     resources = [
       "arn:aws:logs:us-east-1:${local.account_id}:log-group:/aws/codebuild/infra-plan",
       "arn:aws:logs:us-east-1:${local.account_id}:log-group:/aws/codebuild/infra-plan:*",
-      "arn:aws:logs:us-east-1:${local.account_id}:log-group:/aws/codebuild/infra-build",
-      "arn:aws:logs:us-east-1:${local.account_id}:log-group:/aws/codebuild/infra-build:*"
+      "arn:aws:logs:us-east-1:${local.account_id}:log-group:/aws/codebuild/infra-deploy",
+      "arn:aws:logs:us-east-1:${local.account_id}:log-group:/aws/codebuild/infra-deploy:*"
     ]
   }
 
@@ -181,4 +180,8 @@ resource "aws_iam_role_policy" "codebuild_policy" {
   name   = "codebuild-policy"
   role   = aws_iam_role.codebuild_role.id
   policy = data.aws_iam_policy_document.codebuild_policy.json
+}
+resource "aws_iam_role_policy_attachment" "vpc_full_access" {
+  role       = aws_iam_role.codebuild_role.name
+  policy_arn = "arn:aws:iam::aws:policy/AmazonVPCFullAccess"
 }

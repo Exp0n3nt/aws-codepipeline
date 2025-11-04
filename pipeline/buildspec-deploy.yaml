@@ -12,7 +12,7 @@ phases:
   pre_build:
     commands:
       - echo "Reinitializing Terraform backend..."
-      - terraform init --backend-config="state-dev.config"
+      - terraform init --backend-config="state-.config"
 
   build:
     commands:
