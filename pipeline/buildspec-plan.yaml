@@ -3,6 +3,7 @@ version: 0.2
 phases:
   install:
     commands:
+      - cd ./infra
       - echo "Installing Terraform..."
       - curl -s -o terraform.zip https://releases.hashicorp.com/terraform/1.9.8/terraform_1.9.8_linux_amd64.zip
       - unzip terraform.zip -d /usr/local/bin/
