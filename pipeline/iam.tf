@@ -137,10 +137,15 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "s3:GetObject",
       "s3:GetObjectVersion",
       "s3:GetBucketAcl",
-      "s3:GetBucketLocation"
+      "s3:GetBucketLocation",
+      "s3:ListBucket",
+      "s3:HeadObject"
     ]
     resources = [
-      "arn:aws:s3:::codepipeline-*"
+      "${aws_s3_bucket.terraform_state_bucket.arn}",
+      "${aws_s3_bucket.terraform_state_bucket.arn}/*",
+      "${aws_s3_bucket.codepipeline_artifact_bucket.arn}",
+      "${aws_s3_bucket.codepipeline_artifact_bucket.arn}/*"
     ]
   }
 
@@ -168,7 +173,7 @@ data "aws_iam_policy_document" "codebuild_policy" {
       "dynamodb:DescribeTable"
     ]
     resources = [
-      "arn:aws:dynamodb:us-east-1:${local.account_id}:table/codepipeline-*"
+      "${aws_dynamodb_table.terraform_state_table.arn}"
     ]
   }
 }
