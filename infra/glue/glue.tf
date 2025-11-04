@@ -1,12 +1,12 @@
-resource "aws_glue_catalog_database" "DemoDB" {
-  name = "DemoDB"
+resource "aws_glue_catalog_database" "demodb" {
+  name = "demodb"
 }
 resource "aws_glue_catalog_table" "aws_glue_catalog_table" {
   name          = "DemoTable"
-  database_name = aws_glue_catalog_database.DemoDB.name
+  database_name = aws_glue_catalog_database.demodb.name
 }
 resource "aws_glue_crawler" "crawler" {
-  database_name = aws_glue_catalog_database.DemoDB.name
+  database_name = aws_glue_catalog_database.demodb.name
   name          = "S3_crawler"
   role          = aws_iam_role.glue_role.arn
 
